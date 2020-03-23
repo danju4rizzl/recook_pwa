@@ -7,3 +7,6 @@ self.addEventListener('install', evt => {
 self.addEventListener('activate', evt => {
   console.log('service worker has be activated');
 });
+
+
+alert('hey you stoped at #11');
