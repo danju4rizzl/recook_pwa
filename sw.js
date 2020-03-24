@@ -1,4 +1,5 @@
 const staticCacheName = 'site-static-v1';
+const dynamicCacheName = 'site-dynamic-v1';
 
 const assets = [
   '/',
@@ -11,7 +12,9 @@ const assets = [
   '/img/dish.png',
   // The next 2 CDN links are for fonts
   'https://fonts.googleapis.com/icon?family=Material+Icons',
-  'https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2'
+  'https://fonts.gstatic.com/s/materialicons/v50/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2',
+  // This is the fallback page incase the user is offline
+  '/pages/offline.html'
 ];
 
 // install the service worker
@@ -32,7 +35,7 @@ self.addEventListener('activate', evt => {
     caches.keys().then(keys => {
       Promise.all(
         keys
-          .filter(key => key !== staticCacheName)
+          .filter(key => key !== staticCacheName && key !== dynamicCacheName)
           .map(key => caches.delete(key))
       );
     })
@@ -43,8 +46,23 @@ self.addEventListener('activate', evt => {
 self.addEventListener('fetch', evt => {
   // console.log('Event fetched!🔥', evt);
   evt.respondWith(
-    caches.match(evt.request).then(cacheRes => {
-      return cacheRes || fetch(evt.request);
-    })
+    caches
+      .match(evt.request)
+      .then(cacheRes => {
+        return (
+          cacheRes ||
+          fetch(evt.request).then(fetchRes => {
+            return caches.open(dynamicCacheName).then(cache => {
+              cache.put(evt.request.url, fetchRes.clone());
+              return fetchRes;
+            });
+          })
+        );
+      })
+      .catch(() => {
+        if (evt.request.url.indexOf('.html') > -1) {
+          return caches.match('/pages/offline.html');
+        }
+      })
   );
 });
