@@ -1,6 +1,10 @@
 <html lang="en">
   <head>
-    <link rel="shortcut icon" href="/img/icons/favicon.ico" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/img/icons/favicon.ico"
+      type="image/x-icon"
+    />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -135,7 +139,37 @@
       </form>
     </div>
 
-    <script src="/js/ui.js"></script>
+    <!-- Embedded Firebase  SDK Below-->
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-analytics.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: 'AIzaSyD6gkb1uRWGFiD38Tj1x6Q_X6YepKX1zDI',
+        authDomain: 're-cook-webapp.firebaseapp.com',
+        databaseURL: 'https://re-cook-webapp.firebaseio.com',
+        projectId: 're-cook-webapp',
+        storageBucket: 're-cook-webapp.appspot.com',
+        messagingSenderId: '871716104611',
+        appId: '1:871716104611:web:f4acc73e83cc78ed411216',
+        measurementId: 'G-1BF5ME1QSW'
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+
+      const db = firebase.firestore();
+    </script>
+
+    <script src="/ js/ui.js"></script>
+     <script src="/ js/db.js"></script>
     <script src="/js/app.js"></script>
   </body>
 </html>
