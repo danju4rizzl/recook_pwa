@@ -28,3 +28,10 @@ const renderRecipe = (data, id) => {
   `;
   recipes.innerHTML += htmlTemplate;
 };
+
+// Remove recipe from DOM
+const removeRecipe = id => {
+  const recipe = document.querySelector(`.recipe[data-id=${id}]`);
+
+  recipe.remove();
+};
